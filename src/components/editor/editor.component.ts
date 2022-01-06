@@ -117,6 +117,10 @@ export class EditorComponent extends connect(rootStore)(LitElement) {
           color: #444444;
         }
 
+        .ql-custom .ql-picker-item:before {
+          content: attr(data-label);
+        }
+
         .lx-eta-rebate-180-graus {
           -moz-transform: scaleX(-1);
           -o-transform: scaleX(-1);
@@ -222,6 +226,14 @@ export class EditorComponent extends connect(rootStore)(LitElement) {
           <button @click=${this.onClickRedo} class="lx-eta-ql-button" title="Refazer (Ctrl+y)"><i class="fa fa-undo lx-eta-rebate-180-graus"></i></button>
           <button @click=${this.onClickDispositivoAtual} class="lx-eta-ql-button lx-eta-btn-disp-atual" title="Localizar dispositivo atual">D</button>
           <button @click=${this.onClickValidacao} class="lx-eta-ql-button lx-eta-btn-disp-atual" title="Validar Articulação">V</button>
+
+          <select class="ql-custom tooltip" [title]="'values'">
+            <option value="1">value1</option>
+            <option value="2">value2</option>
+            <option value="3">value3</option>
+            <option value="4">value4</option>
+          </select>
+
           <lexml-eta-help style="float:right;"></lexml-eta-help>
         </div>
         <div id="lx-eta-editor"></div>
