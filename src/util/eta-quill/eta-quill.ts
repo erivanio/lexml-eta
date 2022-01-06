@@ -254,10 +254,7 @@ export class EtaQuill extends Quill {
 
   private verificarMudouLinha(range: RangeStatic, oldRange?: RangeStatic): boolean {
     // correção bug: cursor se perde ao teclar ↑ na primeira linha
-    if (range && oldRange 
-        && range.index === 0 
-        && range.length === 0
-    ) {
+    if (range && oldRange && range.index === 0 && range.length === 0) {
       const cursorAnt: EtaBlot = this.getLine(oldRange.index)[0];
       this.setSelection(this.getIndex(cursorAnt), 0, Quill.sources.SILENT);
       return false;

@@ -254,14 +254,18 @@ export class EditorComponent extends connect(rootStore)(LitElement) {
     return !rotulo || rotulo.replace(/["“”]?/, '') === tipo;
   }
 
-  private onSelectionChange: SelectionChangeHandler = (): void => {
-    if (this.quill.mudouDeLinha) {
-      const linhaAnt: EtaContainerTable = this.quill.linhaAnterior;
-      if (linhaAnt) {
-        const elemento: Elemento = this.criarElemento(linhaAnt.uuid, linhaAnt.tipo, linhaAnt.blotConteudo?.html ?? '', linhaAnt.numero, linhaAnt.hierarquia);
-        if (linhaAnt.blotConteudo?.alterado) {
+  private saiuDaCelulaDeEdicao(range: { index: number; length: number }, oldRange: { index: number; length: number }): boolean {
+    return range === null && oldRange !== null && this.quill.linhaAtual !== undefined;
+  }
+
+  private onSelectionChange: SelectionChangeHandler = (range: { index: number; length: number }, oldRange: { index: number; length: number }): void => {
+    if (this.quill.mudouDeLinha || this.saiuDaCelulaDeEdicao(range, oldRange)) {
+      const linha: EtaContainerTable = this.quill.mudouDeLinha ? this.quill.linhaAnterior : this.quill.linhaAtual;
+      if (linha) {
+        const elemento: Elemento = this.criarElemento(linha.uuid, linha.tipo, linha.blotConteudo?.html ?? '', linha.numero, linha.hierarquia);
+        if (linha.blotConteudo?.alterado) {
           rootStore.dispatch(atualizarElementoAction.execute(elemento));
-        } else if ((linhaAnt.blotConteudo?.html === '' && linhaAnt.blotConteudo?.htmlAnt === '') || this.isRotuloInvalido(linhaAnt.tipo, linhaAnt.blotRotulo?.rotulo)) {
+        } else if ((linha.blotConteudo?.html === '' && linha.blotConteudo?.htmlAnt === '') || this.isRotuloInvalido(linha.tipo, linha.blotRotulo?.rotulo)) {
           rootStore.dispatch(validarElementoAction.execute(elemento));
         }
       }
