@@ -191,7 +191,8 @@ export class EtaKeyboard extends Keyboard {
 
   private onTeclaDelete(ev: KeyboardEvent): void {
     const range: RangeStatic = this.quill.getSelection(true);
-    if (!this.verificarOperacaoTecladoPermitida() || range.index === this.quill.fimConteudoAtual) {
+    const verificaLink = this.quill.getContents(range.index, 1).ops[0].attributes?.link
+    if (!this.verificarOperacaoTecladoPermitida() || range.index === this.quill.fimConteudoAtual || verificaLink) {
       cancelarPropagacaoDoEvento(ev);
     }
   }
