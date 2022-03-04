@@ -52,6 +52,9 @@ const buildElementoPai = (dispositivo: Dispositivo): Referencia | undefined => {
 
 export const createElemento = (dispositivo: Dispositivo, acoes = true): Elemento => {
   const pai = dispositivo.pai!;
+  
+  atualizaLinkTextoDispositivo(dispositivo);
+
   return {
     tipo: dispositivo.tipo,
     nivel: getNivel(dispositivo),
@@ -76,6 +79,18 @@ export const createElemento = (dispositivo: Dispositivo, acoes = true): Elemento
     descricaoSituacao: dispositivo.situacao?.descricaoSituacao,
     mensagens: isOriginal(dispositivo) ? [] : dispositivo.mensagens,
   };
+};
+
+export const atualizaLinkTextoDispositivo = (dispositivo: Dispositivo): Dispositivo => {
+  const p = document.createElement('p');
+
+  p.innerHTML = dispositivo.texto;
+  p.querySelectorAll('a').forEach(function(anchor){
+    anchor.setAttribute('contenteditable', 'false');
+  });
+  dispositivo.texto = p.innerHTML;
+
+  return dispositivo;
 };
 
 export const createElementos = (elementos: Elemento[], dispositivo: Dispositivo): void => {
