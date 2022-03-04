@@ -264,6 +264,10 @@ export class EditorComponent extends connect(rootStore)(LitElement) {
         .ql-snow .ql-tooltip a.ql-preview {
           max-width: 300px;
         }
+
+        .ql-editor a {
+          -webkit-user-modify: read-only;
+        }
       </style>
       <div id="lx-eta-box">
         <div id="lx-eta-barra-ferramenta">
